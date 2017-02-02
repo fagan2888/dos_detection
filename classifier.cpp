@@ -7,7 +7,7 @@ using namespace std;
 
 map<string,double> mp_normal[10];
 map<string,double> mp_attack[10];
-long long int no_attack=0,attack=0;
+double no_attack=0,attack=0;
 double prob_attack=1,
 	prob_noattack=1;
 double p_att=1,
@@ -124,6 +124,7 @@ int main(int argc, char** argv)
 	prob_noattack = no_attack/(attack + no_attack);
 
 	test(file);
+	//cout<<prob_attack<<" "<<prob_noattack<<"\n";
 	printf("Accuracy rate is %lf\n",(correct/total));
 	fclose(file);
 	fclose(in);
