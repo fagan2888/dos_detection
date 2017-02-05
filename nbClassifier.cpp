@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include<stdio.h>
 #include<string.h>
+#include<cstring>
 
 using namespace std;
 
@@ -17,6 +18,7 @@ double total=0,
 	correct=0;
 
 char* getField(char*,int);
+int comp(char*);
 
 void test(FILE* file)
 {
@@ -42,7 +44,7 @@ void test(FILE* file)
 
 		if(p_att>= p_nor)
 		{
-			if(strcmp(token,"normal."))
+			if(comp(token)==0)
 			correct++;
 		}
 		total++;
@@ -50,10 +52,20 @@ void test(FILE* file)
 
 }
 
+int comp(char* token)
+{
+	int l=strlen(token);
+
+	if(token[0]=='n' && token[1]=='o' && token[2]=='r' && token[3]=='m' && token[4]=='a' && token[5]=='l' && token[6]=='.')
+	return 1;
+
+	return 0;
+	
+}
 
 char* getField(char* line, int num)
 {
-        char* tok = NULL;
+        char *tok = NULL;
 
 	for (tok = strtok(line, ",");
             tok && *tok;
@@ -81,12 +93,15 @@ int main(int argc, char** argv)
 		mp_attack[i] = mp;
 	}
 
+
+
 	while(fgets(line,1024,in))
 	{
 		char* tmp = strdup(line);
 		char* token = getField(tmp,8);
 
-		if(!strcmp(token,"normal."))
+
+		if(comp(token))
 		{
 			for(i=1;i<=7;i++)
 				mp_normal[i][getField(strdup(line),i)]++;
@@ -101,8 +116,10 @@ int main(int argc, char** argv)
 
 			attack++;
 		}
-		
+
+	
 	}
+
 
 	for(i=0;i<10;i++)
 	{
@@ -121,6 +138,7 @@ int main(int argc, char** argv)
 
 	prob_attack = attack/(attack + no_attack);
 	prob_noattack = no_attack/(attack + no_attack);
+
 
 	test(file);						//testing the predictor
 
